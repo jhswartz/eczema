@@ -81,6 +81,13 @@ VARIABLE LineIndex
   THEN
   #input FOCUS ;
 
+: INPUT! { text -- }
+  text "value" #input ! ;
+
+: CLEAR-INPUT { -- }
+  "" INPUT!
+  -1 LineIndex ! ;
+
 : ENTER { event -- }
   "value" #input ? { text }
   text IF
@@ -88,13 +95,6 @@ VARIABLE LineIndex
     CLEAR-INPUT
   THEN
   #input FOCUS ;
-
-: CLEAR-INPUT { -- }
-  "" INPUT!
-  -1 LineIndex ;
-
-: INPUT! { text -- }
-  text "value" #input ! ;
 
 : STEP-INPUT { step -- }
   InputOutput SELECT-CLASS QUERY-ALL { inputs }
