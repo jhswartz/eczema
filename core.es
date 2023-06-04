@@ -608,13 +608,4 @@ CODE: >=
   system.data.push(x >= y);
 ;
 
-
-\\ String
-
-: MERGE { count glue -- string }
-  count :ARRAY glue JOIN ;
-
-: SPLIT { string delimiter -- array }
-  delimiter 1 "split" string METHOD ;
-
 `);
