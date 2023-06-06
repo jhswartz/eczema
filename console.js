@@ -23,7 +23,7 @@ system.parse(`
 
 PUBLISH CONSOLE
 
-\\ View  
+\\ View
 
 VARIABLE LineIndex
 -1 LineIndex !
@@ -43,11 +43,14 @@ VARIABLE LineIndex
 
 \\ Input / Output
 
-: WRITE { text colour -- }
+: LINE { text colour -- line }
   "p" CREATE-ELEMENT { line }
   colour line COLOUR? !
   text line APPEND
-  line #output PREPEND ;
+  line ;
+
+: WRITE ( text colour -- )
+  LINE #output PREPEND ;
 
 : BREAK ( -- )
   "br" CREATE-ELEMENT #output PREPEND ;
@@ -58,7 +61,9 @@ VARIABLE LineIndex
   utcDate TimestampOutput WRITE ;
 
 : INPUT ( text -- )
-  InputOutput WRITE ;
+  InputOutput LINE { line }
+  "input-line" line CLASS!
+  line #output PREPEND ;
 
 : ERROR ( error -- )
   ErrorOutput WRITE ;
@@ -97,8 +102,8 @@ VARIABLE LineIndex
   #input FOCUS ;
 
 : STEP-INPUT { step -- }
-  InputOutput SELECT-CLASS QUERY-ALL { inputs }
-  LineIndex ?                        { index }
+  ".input-line" QUERY-ALL { inputs }
+  LineIndex ?             { index }
   index step + inputs ? UNDEFINED = IF 
     CLEAR-INPUT
   ELSE
@@ -133,6 +138,6 @@ VARIABLE LineIndex
 
 `);
 
-system.console.write('"слава україні! https://war.ukraine.ua/support-ukraine/"', "#fd0");
-system.console.write('"россия будет свободной! https://legionliberty.army/"', "#5cd");
+system.console.write('слава україні! https://war.ukraine.ua/support-ukraine/', "#fd0");
+system.console.write('россия будет свободной! https://legionliberty.army/', "#5cd");
 system.console.read("USE CORE WORDS?");
