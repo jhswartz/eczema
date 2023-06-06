@@ -3,8 +3,8 @@ system.console.error = function(error) {
   system.interpret("ERROR");
 }
 
-system.console.write = function(text, type = "default-output") {
-  system.data.push(text, type);
+system.console.write = function(text, colour = "#ccc") {
+  system.data.push(text, colour);
   system.interpret("WRITE");
 };
 
@@ -28,10 +28,10 @@ PUBLISH CONSOLE
 VARIABLE LineIndex
 -1 LineIndex !
 
-"timestamp-output" VALUE TimestampOutput
-"default-output"   VALUE DefaultOutput
-"input-output"     VALUE InputOutput
-"error-output"     VALUE ErrorOutput
+"#2a9" VALUE TimestampOutput
+"#ccc" VALUE DefaultOutput
+"#6ec" VALUE InputOutput
+"#ec2" VALUE ErrorOutput
 
 "#view"    QUERY-SELECTOR VALUE #view
 "#output"  QUERY-SELECTOR VALUE #output
@@ -43,9 +43,9 @@ VARIABLE LineIndex
 
 \\ Input / Output
 
-: WRITE { text class -- }
+: WRITE { text colour -- }
   "p" CREATE-ELEMENT { line }
-  class line CLASS!
+  colour line COLOUR? !
   text line APPEND
   line #output PREPEND ;
 
@@ -133,4 +133,6 @@ VARIABLE LineIndex
 
 `);
 
+system.console.write('"слава україні! https://war.ukraine.ua/support-ukraine/"', "#fd0");
+system.console.write('"россия будет свободной! https://legionliberty.army/"', "#5cd");
 system.console.read("USE CORE WORDS?");

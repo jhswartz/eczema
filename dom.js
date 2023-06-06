@@ -52,6 +52,9 @@ CODE: DOCUMENT
 : STYLE? { element -- style }
   "style" element ? ;
 
+: COLOUR? { element -- colour }
+  "color" element STYLE? ;
+
 : HIDE { element -- }
   "none" "display" element STYLE? ! ;
 

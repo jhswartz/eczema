@@ -55,26 +55,6 @@ body {
   overflow: scroll;
 }
 
-.timestamp-output {
-  color: #2a9;
-}
-
-.default-output {
-  color: #ccc;
-}
-
-.input-output {
-  color: #6ec;
-}
-
-.info-output {
-  color: #a92;
-}
-
-.error-output {
-  color: #ec2;
-}
-
 #view {
   background-color: rgba(0, 0, 0, 0.75);
   position: absolute;
