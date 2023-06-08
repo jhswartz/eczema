@@ -27,7 +27,7 @@ CODE: (
   while (input.next() !== ")");
 ; IMMEDIATE
 
-CODE: PARSE 
+CODE: EVALUATE 
   system.parse(system.data.pop());
 ;
 

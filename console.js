@@ -71,7 +71,7 @@ VARIABLE LineIndex
 : READ { text -- }
   BREAK TIMESTAMP
   text INPUT
-  text PARSE ;
+  text EVALUATE ;
 
 
 \\ Control 
