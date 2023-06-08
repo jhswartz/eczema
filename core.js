@@ -31,7 +31,7 @@ CODE: PARSE
 
 \\ ECMAScript
 
-CODE: :CODE
+CODE: EVAL
   system.data.push(eval(system.data.pop()));
 ;
 
@@ -331,14 +331,14 @@ CODE: '
   system.data.push(system.pile.search(system.input.next()));
 ;
 
-: DEFINITION ( word -- definition )
+: DEFINITION? ( word -- definition )
   "definition" SWAP ? ;
 
 : FUNCTION? ( word -- function )
   "execute" SWAP ? ;
 
 : SEE ( token -- )
-  " " 1 "join" POSTPONE ' DEFINITION METHOD . ;
+  " " 1 "join" POSTPONE ' DEFINITION? METHOD . ;
 
 : INSPECT ( item -- ) 
   DUP . ;
@@ -384,16 +384,16 @@ CODE: JUMP?
 ;
 
 MACRO: IF
-  JUMP? [ LATEST? DEFINITION COUNT ] 0 ;
+  JUMP? [ LATEST? DEFINITION? COUNT ] 0 ;
 
 MACRO: THEN
-  [ LATEST? DEFINITION COUNT SWAP LATEST? DEFINITION ! ] ;
+  [ LATEST? DEFINITION? COUNT SWAP LATEST? DEFINITION? ! ] ;
 
 MACRO: ELSE
-  JUMP [ LATEST? DEFINITION COUNT SWAP ] 0 THEN ;
+  JUMP [ LATEST? DEFINITION? COUNT SWAP ] 0 THEN ;
 
 MACRO: BEGIN
-  [ LATEST? DEFINITION COUNT ] ;
+  [ LATEST? DEFINITION? COUNT ] ;
 
 MACRO: UNTIL
   JUMP? [ , ] ;
