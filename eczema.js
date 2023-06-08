@@ -335,8 +335,8 @@ class SystemError extends Error {
 class System {
   constructor() {
     this.mode    = Interpret; 
-    this.input   = new Input();
     this.console = new Console();
+    this.input   = new Stack("input");
     this.aux     = new Stack("aux");
     this.data    = new Stack("data");
     this.frames  = new Stack("frames");
@@ -347,14 +347,15 @@ class System {
   }
 
   parse(source) {
-    this.input.update(source);
+    this.input.push(new Input(source));
     let token;
     do { 
-      token = this.input.next();
+      token = this.input.top().next();
       if (token) {
          this.evaluate(token);
       }
     } while (token);
+    this.input.drop();
   }
 
   evaluate(token) {
@@ -421,10 +422,11 @@ class System {
   }
 
   error(message) {
+    let input = this.input.top();
     throw new SystemError(message, {
       cause: {
-        "offset": this.input.offset,
-        "text": this.input.text
+        "offset": input.offset,
+        "text": input.text
       }
     });
   }
@@ -434,13 +436,15 @@ class System {
 
     this.book.add(
       new Word(Direct, "CREATE", [
-        "system.book.add(new Word(Indirect, system.input.next()));"
+        "let input = system.input.top();",
+        "system.book.add(new Word(Indirect, input.next()));"
       ])
     );
     
     this.book.add(
       new Word(Direct, "POSTPONE", [
-        "system.book.word.append(system.input.next());"
+        "let input = system.input.top();",
+        "system.book.word.append(input.next());"
       ], true)
     );
     
