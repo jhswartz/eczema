@@ -31,6 +31,11 @@ CODE: EVALUATE
   system.parse(system.data.pop());
 ;
 
+CODE: ENCODE
+  let source = system.data.pop();
+  system.data.push(\`system.parse('\${source}');\`);
+;
+
 
 \\ ECMAScript
 
