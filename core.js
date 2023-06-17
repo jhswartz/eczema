@@ -127,6 +127,10 @@ CODE: ARRAY
   system.data.push([]);
 ;
 
+CODE: TO-ARRAY
+  system.data.push(Array.from(system.data.pop()));
+;
+
 CODE: :ARRAY
   let count = system.data.pop();
   let array = [];
