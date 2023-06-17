@@ -18,6 +18,9 @@ CODE: DOCUMENT
 : CREATE-ELEMENT ( name -- element )
   1 "createElement" DOCUMENT METHOD ;
 
+: CLASS? { element -- name }
+  "className" element ? ;
+
 : CLASS! { name element -- }
   name "className" element ! ;
 
@@ -54,6 +57,15 @@ CODE: DOCUMENT
 
 : COLOUR? { element -- colour }
   "color" element STYLE? ;
+
+: COLOUR! { colour element -- }
+  colour element COLOUR? ! ;
+
+: OPACITY? { element -- opacity }
+  "opacity" element STYLE? ;
+
+: OPACITY! { opacity element -- }
+  opacity element OPACITY? ! ;
 
 : HIDE { element -- }
   "none" "display" element STYLE? ! ;
