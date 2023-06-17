@@ -9,11 +9,11 @@ CODE: DOCUMENT
 : SELECT-CLASS { name -- selector }
   <[ "." name ]> "" JOIN ;
 
-: QUERY-SELECTOR ( selector -- element )
-  1 "querySelector" DOCUMENT METHOD ;
+: QUERY-SELECTOR { selector element -- nested-element }
+  selector 1 "querySelector" element METHOD ;
 
-: QUERY-ALL ( selector -- element )
-  1 "querySelectorAll" DOCUMENT METHOD ;
+: QUERY-ALL { selector element -- nested-elements }
+  selector 1 "querySelectorAll" element METHOD ;
 
 : CREATE-ELEMENT ( name -- element )
   1 "createElement" DOCUMENT METHOD ;
@@ -29,6 +29,9 @@ CODE: DOCUMENT
 
 : PREPEND { child parent -- }
   child 1 "prepend" parent METHOD ;
+
+: TEXT? { element -- text }
+  "textContent" element ? ;
 
 : ADD-EVENT-LISTENER { function event element -- }
   event function 2 "addEventListener" element METHOD ;

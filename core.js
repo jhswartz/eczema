@@ -208,6 +208,9 @@ CODE: !
 : MERGE { count glue -- string }
   count :ARRAY glue JOIN ;
 
+: TRIM { string -- trimmed }
+  0 "trim" string METHOD ;
+
 : FIT { string form -- fitted }
   form string +   { composite }
   form COUNT -1 * { index }

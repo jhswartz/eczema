@@ -33,12 +33,12 @@ VARIABLE LineIndex
 "#6ec" VALUE InputOutput
 "#ec2" VALUE ErrorOutput
 
-"#view"    QUERY-SELECTOR VALUE #view
-"#output"  QUERY-SELECTOR VALUE #output
-"#control" QUERY-SELECTOR VALUE #control
-"#input"   QUERY-SELECTOR VALUE #input
-"#enter"   QUERY-SELECTOR VALUE #enter
-"#mode"    QUERY-SELECTOR VALUE #mode
+"#view"    DOCUMENT QUERY-SELECTOR VALUE #view
+"#output"  DOCUMENT QUERY-SELECTOR VALUE #output
+"#control" DOCUMENT QUERY-SELECTOR VALUE #control
+"#input"   DOCUMENT QUERY-SELECTOR VALUE #input
+"#enter"   DOCUMENT QUERY-SELECTOR VALUE #enter
+"#mode"    DOCUMENT QUERY-SELECTOR VALUE #mode
 
 
 \\ Input / Output
@@ -102,7 +102,7 @@ VARIABLE LineIndex
   #input FOCUS ;
 
 : STEP-INPUT { step -- }
-  ".input-line" QUERY-ALL { inputs }
+  ".input-line" DOCUMENT QUERY-ALL { inputs }
   LineIndex ?             { index }
   index step + inputs ? UNDEFINED = IF 
     CLEAR-INPUT
@@ -140,4 +140,5 @@ VARIABLE LineIndex
 
 system.console.write('слава україні! https://war.ukraine.ua/support-ukraine/', "#fd0");
 system.console.write('россия будет свободной! https://legionliberty.army/', "#5cd");
+
 system.console.read("USE CORE WORDS?");
