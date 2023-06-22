@@ -39,9 +39,12 @@ CODE: DOCUMENT
 : ON-EVENT { token -- function }
   "event" 1 <[
     "system.data.push(event);
-     system.interpret('" token "');"
+     system.evaluate('" token "');"
   ]> "" JOIN
   FUNCTION ;
+
+: PREVENT-DEFAULT { event -- }
+  0 "preventDefault" event METHOD ;
 
 : WHEN-POINTER-MOVES { function element -- }
   function "pointermove" element ADD-EVENT-LISTENER ;
