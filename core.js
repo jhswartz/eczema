@@ -208,23 +208,6 @@ CODE: !
 : SLICE { index array -- subarray }
   index array COUNT array SLICE# ;
 
-: JOIN { array glue -- string }
-  glue 1 "join" array METHOD ;
-
-: MERGE { count glue -- string }
-  count :ARRAY glue JOIN ;
-
-: TRIM { string -- trimmed }
-  0 "trim" string METHOD ;
-
-: FIT { string form -- fitted }
-  form string +   { composite }
-  form COUNT -1 * { index }
-  index 1 "slice" composite METHOD ;
-
-: SPLIT { string delimiter -- array }
-  delimiter 1 "split" string METHOD ;
-
 : CONTAINS { item array -- boolean }
   item 1 "indexOf" array METHOD -1 <> ;
 
@@ -257,74 +240,5 @@ CODE: TIME
   let end = performance.now();
   system.console.write(\`\${end - start}ms\`);
 ;
-
-
-\\ Memory
-
-CODE: VARIABLE
-  let input = system.input.top();
-  system.book.add(new Word(Direct, input.next()));
-  system.book.word.boundary = 1;
-  system.book.word.execute = new Function(\`
-    let frame = system.frames.top();
-    system.data.push(0);
-    system.data.push(frame.word.definition);
-  \`);
-;
-
-CODE: :VARIABLE
-  let value = system.data.pop();
-  let input = system.input.top();
-  system.book.add(new Word(Direct, input.next()));
-  system.book.word.boundary = 1;
-  system.book.word.definition = [value];
-  system.book.word.execute = new Function(\`
-    let frame = system.frames.top();
-    system.data.push(0);
-    system.data.push(frame.word.definition);
-  \`);
-;
-
-CODE: VALUE
-  let input = system.input.top();
-  system.book.add(new Word(Direct, input.next()));
-  system.book.word.boundary = 1;
-  system.book.word.append(system.data.pop());
-  system.book.word.execute = new Function(\`
-    let frame = system.frames.top();
-    system.data.push(frame.word.definition.at(0));
-  \`);
-;
-
-CODE: TO
-  let input = system.input.top();
-  let token = input.next();
-  let word = system.pile.search(token);
-  word.definition[0] = system.data.pop();
-;
-
-CODE: {
-  let local = true, locals = [];
-  let token, frame = system.frames.get(1);
-  while (token = frame.word.definition.at(frame.offset)) {
-    if (token === "}") {
-      break;
-    }
-    else if (token === "--") {
-      local = false;
-    }
-    else {
-      if (local) {
-        locals.unshift(token);
-      }
-    }
-    frame.offset++;
-  }
-  frame.offset++;
-  locals.forEach(local => {
-    frame.add(local, system.data.pop());
-  });
-;
-
 
 `);
