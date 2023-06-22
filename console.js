@@ -140,5 +140,6 @@ VARIABLE LineIndex
 
 system.console.write('слава україні! https://war.ukraine.ua/support-ukraine/', "#fd0");
 system.console.write('россия будет свободной! https://legionliberty.army/', "#5cd");
+system.console.write('Живе́ Білору́сь! https://kalinouski.org/', "#f00");
 
-system.console.read("USE CORE WORDS?");
+system.console.read("BOOKS?");
