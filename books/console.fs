@@ -146,7 +146,6 @@ PUBLISH CONSOLE
   "Живе́ Білору́сь! https://kalinouski.org/" "#f66" WRITE ;
  
 : START ( -- )
-  "BOOKS?" READ
   #input FOCUS ;
 
 EXPECT-EVENTS MAKE-ANNOUNCEMENTS START
