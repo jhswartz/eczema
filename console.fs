@@ -1,20 +1,20 @@
 system.console.error = function(error) {
   system.data.push(error);
-  system.interpret("ERROR");
+  system.evaluate("ERROR");
 }
 
 system.console.write = function(text, colour = "#ccc") {
   system.data.push(text, colour);
-  system.interpret("WRITE");
+  system.evaluate("WRITE");
 };
 
 system.console.read = function(text) {
   try {
     system.data.push(text);
-    system.interpret("READ");
+    system.evaluate("READ");
   }
   catch (error) {
-    system.interpret("BACKTRACE");
+    system.evaluate("BACKTRACE");
     system.console.error(error);
   }
 }
@@ -23,10 +23,9 @@ system.parse(`
 
 PUBLISH CONSOLE
 
-\\ View
+( View )
 
-VARIABLE LineIndex
--1 LineIndex !
+-1 :VARIABLE LineIndex
 
 "#2a9" VALUE TimestampOutput
 "#ccc" VALUE DefaultOutput
@@ -41,7 +40,7 @@ VARIABLE LineIndex
 "#mode"    DOCUMENT QUERY-SELECTOR VALUE #mode
 
 
-\\ Input / Output
+( Input / Output )
 
 : LINE { text colour -- line }
   "p" CREATE-ELEMENT { line }
@@ -74,7 +73,7 @@ VARIABLE LineIndex
   text EVALUATE ;
 
 
-\\ Control 
+( Control )
 
 : TOGGLE-MODE { event -- }
   "zIndex" #view STYLE? ? "2" <> IF
@@ -102,8 +101,8 @@ VARIABLE LineIndex
   #input FOCUS ;
 
 : STEP-INPUT { step -- }
+  LineIndex ?                      { index }
   ".input-line" DOCUMENT QUERY-ALL { inputs }
-  LineIndex ?             { index }
   index step + inputs ? UNDEFINED = IF 
     CLEAR-INPUT
   ELSE
@@ -114,32 +113,42 @@ VARIABLE LineIndex
     THEN
   THEN ;
 
+: PREVIOUS-INPUT ( -- )
+  +1 STEP-INPUT ;
+
+: NEXT-INPUT ( -- )
+  -1 STEP-INPUT ;
+
 : KEY { event -- }
   "key" event ? "ArrowUp" = IF
-    0 "preventDefault" event METHOD
-    +1 STEP-INPUT
-  EXIT THEN
+    event PREVENT-DEFAULT PREVIOUS-INPUT EXIT
+  THEN
 
   "key" event ? "ArrowDown" = IF
-    0 "preventDefault" event METHOD
-    -1 STEP-INPUT
-  EXIT THEN
+    event PREVENT-DEFAULT NEXT-INPUT EXIT
+  THEN
 
   "key" event ? "Enter" = IF
-    0 "preventDefault" event METHOD
-    event ENTER
+    event PREVENT-DEFAULT event ENTER
   THEN ;
 
-"TOGGLE-MODE" ON-EVENT #mode  WHEN-CLICKED
-"ENTER"       ON-EVENT #enter WHEN-CLICKED
-"KEY"         ON-EVENT #input WHEN-KEY-RELEASED
 
-#input FOCUS
+( Initialisation )
+
+: EXPECT-EVENTS ( -- )
+  "TOGGLE-MODE" ON-EVENT #mode  WHEN-CLICKED
+  "ENTER"       ON-EVENT #enter WHEN-CLICKED
+  "KEY"         ON-EVENT #input WHEN-KEY-RELEASED ;
+
+: MAKE-ANNOUNCEMENTS ( -- )
+  "слава україні! https://war.ukraine.ua/support-ukraine/" "#fd0" WRITE
+  "россия будет свободной! https://legionliberty.army/" "#5cd" WRITE
+  "Живе́ Білору́сь! https://kalinouski.org/" "#f66" WRITE ;
+ 
+: START ( -- )
+  "BOOKS?" READ
+  #input FOCUS ;
+
+EXPECT-EVENTS MAKE-ANNOUNCEMENTS START
 
 `);
-
-system.console.write('слава україні! https://war.ukraine.ua/support-ukraine/', "#fd0");
-system.console.write('россия будет свободной! https://legionliberty.army/', "#5cd");
-system.console.write('Живе́ Білору́сь! https://kalinouski.org/', "#f00");
-
-system.console.read("BOOKS?");
