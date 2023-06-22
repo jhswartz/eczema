@@ -23,4 +23,12 @@ PUBLISH TIME
           SECONDS/HOUR   MOD
           SECONDS/MINUTE MOD ;
 
+CODE: TIME
+  let input = system.input.top();
+  let start = performance.now();
+  system.evaluate(input.next());
+  let end = performance.now();
+  system.console.write(\`\${end - start}ms\`);
+;
+
 `);
