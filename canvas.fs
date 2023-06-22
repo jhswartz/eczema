@@ -1,8 +1,8 @@
-system.parse(`
+system.parse(` 
 
 PUBLISH CANVAS
 
-\\ Canvas
+( Canvas )
 
 : DIMENSIONS! { width height canvas -- }
   width "width" canvas ! height "height" canvas ! ;
@@ -15,7 +15,7 @@ PUBLISH CANVAS
   width height canvas DIMENSIONS! canvas ;
 
 
-\\ Context 
+( Context )
 
 : GET-CONTEXT ( type canvas -- context )
   1 "getContext" ROT METHOD ;
@@ -24,7 +24,7 @@ PUBLISH CANVAS
   "2d" SWAP GET-CONTEXT ;
 
 
-\\ Style
+( Style )
 
 : FILL-STYLE ( value context -- )
   "fillStyle" SWAP ! ;
@@ -33,7 +33,7 @@ PUBLISH CANVAS
   "strokeStyle" SWAP ! ;
 
 
-\\ Rectangles
+( Rectangles )
 
 : FILL-RECT ( x y width height context -- )
   4 "fillRect" ROT METHOD ;
@@ -45,7 +45,7 @@ PUBLISH CANVAS
   4 "clearRect" ROT METHOD ;
 
 
-\\ Text
+( Text )
 
 : FONT! ( font-face context -- )
   "font" SWAP ! ;
@@ -63,7 +63,7 @@ PUBLISH CANVAS
   3 "strokeText" ROT METHOD ;
 
 
-\\ Paths
+( Paths )
 
 : BEGIN-PATH ( context -- )
   0 "beginPath" ROT METHOD ;
