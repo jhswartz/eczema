@@ -40,6 +40,12 @@ CODE: ENCODE
   system.data.push(\`system.parse('\${source}');\`);
 ;
 
+CODE: PUBLISH
+  let input = system.input.top();
+  system.book = new Book(input.next());
+  system.pile.push(system.book);
+;
+
 
 \\ ECMAScript
 
@@ -319,47 +325,6 @@ CODE: {
     frame.add(local, system.data.pop());
   });
 ;
-
-
-\\ Pile
-
-CODE: BOOKS?
-  let titles = system.pile.cells.map(book => book.title);
-  system.console.write(titles.join(' '));
-;
-
-CODE: PUBLISH
-  let input = system.input.top();
-  system.book = new Book(input.next());
-  system.pile.push(system.book);
-;
-
-CODE: BURN
-  system.pile.pop();
-;
-
-CODE: USE
-  let input = system.input.top();
-  system.book = system.pile.find(input.next());
-;
-
-
-\\ Book
-
-CODE: BOOK?
-  system.console.write(system.book.title);
-;
-
-CODE: LATEST?
-  system.data.push(system.book.word);
-;
-
-CODE: WORDS?
-  system.console.write(system.book.state());
-;
-
-
-\\ Word
 
 
 `);
