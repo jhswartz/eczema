@@ -1,0 +1,18 @@
+#!/bin/sh
+
+cat books/system.js \
+    books/core.fs \
+    books/book.fs \
+    books/word.fs \
+    books/memory.fs \
+    books/flow.fs \
+    books/stack.fs \
+    books/arithmetic.fs \
+    books/compare.fs \
+    books/object.fs \
+    books/array.fs \
+    books/string.fs \
+    books/window.fs \
+    books/dom.fs \
+    books/canvas.fs \
+    books/console.fs > eczema.js
