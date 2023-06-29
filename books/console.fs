@@ -44,7 +44,7 @@ PUBLISH CONSOLE
 
 : LINE { text colour -- line }
   "p" CREATE-ELEMENT { line }
-  colour line COLOUR? !
+  colour line COLOUR!
   text line APPEND
   line ;
 

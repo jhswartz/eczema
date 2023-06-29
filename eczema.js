@@ -1234,31 +1234,34 @@ CODE: DOCUMENT
   "style" element ? ;
 
 : COLOUR? { element -- colour }
-  "color" element STYLE? ;
+  "color" element STYLE? ? ;
 
 : COLOUR! { colour element -- }
-  colour element COLOUR? ! ;
+  colour "color" element STYLE? ! ;
 
 : OPACITY? { element -- opacity }
-  "opacity" element STYLE? ;
+  "opacity" element STYLE? ? ;
 
 : OPACITY! { opacity element -- }
-  opacity element OPACITY? ! ;
+  opacity "opacity" element STYLE? ! ;
 
 : HIDE { element -- }
   "none" "display" element STYLE? ! ;
 
-: DISPLAY { type element -- }
-  type "display" element STYLE? ! ;
+: DISPLAY? { element -- display }
+  "display" element STYLE? ? ;
+
+: DISPLAY! { display element -- }
+  display "display" element STYLE? ! ;
 
 : VISIBLE? { element -- }
-  "none" "display" element STYLE? ? <> ;
+  "none" element DISPLAY? <> ;
 
 : TOGGLE-VISIBILITY { type element -- }
   element VISIBLE? IF
     element HIDE
   ELSE
-    type element DISPLAY
+    type element DISPLAY!
   THEN ;
 
 : FOCUS { element -- }
@@ -1455,7 +1458,7 @@ PUBLISH CONSOLE
 
 : LINE { text colour -- line }
   "p" CREATE-ELEMENT { line }
-  colour line COLOUR? !
+  colour line COLOUR!
   text line APPEND
   line ;
 
