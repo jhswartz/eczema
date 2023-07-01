@@ -1403,6 +1403,13 @@ PUBLISH TIME
           SECONDS/HOUR   MOD
           SECONDS/MINUTE MOD ;
 
+: HH:MM:SS { -- timestamp }
+  0 "Date" NEW                        { date }
+  0 "getHours"   date METHOD "00" FIT { hour }
+  0 "getMinutes" date METHOD "00" FIT { minute }
+  0 "getSeconds" date METHOD "00" FIT { seconds }
+  <[ hour ":" minute ":" seconds ]> "" JOIN ;
+
 CODE: TIME
   let input = system.input.top();
   let start = performance.now();
