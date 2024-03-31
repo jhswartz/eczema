@@ -140,14 +140,9 @@ PUBLISH CONSOLE
   "ENTER"       ON-EVENT #enter WHEN-CLICKED
   "KEY"         ON-EVENT #input WHEN-KEY-RELEASED ;
 
-: MAKE-ANNOUNCEMENTS ( -- )
-  "слава україні! https://war.ukraine.ua/support-ukraine/" "#fd0" WRITE
-  "россия будет свободной! https://legionliberty.army/" "#5cd" WRITE
-  "Живе́ Білору́сь! https://kalinouski.org/" "#f66" WRITE ;
- 
 : START ( -- )
   #input FOCUS ;
 
-EXPECT-EVENTS MAKE-ANNOUNCEMENTS START
+EXPECT-EVENTS START "USE BOOK WORDS?" READ
 
 `);
